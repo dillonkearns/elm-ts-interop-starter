@@ -1,0 +1,5 @@
+dist/
+node_modules/
+.npmrc
+elm-stuff/
+src/Main/index.d.ts
