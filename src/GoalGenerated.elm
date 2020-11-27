@@ -24,7 +24,7 @@ alert argument =
         |> fromElm
 
 
-bugsnag : { a | context : List String, message : String } -> Cmd msg
+bugsnag : { context : List String, message : String } -> Cmd msg
 bugsnag argument =
     argument
         |> Encode.encodeProVariant "bugsnag" GoalPorts.bugsnag
