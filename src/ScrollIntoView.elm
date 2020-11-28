@@ -1,4 +1,4 @@
-module ScrollIntoView exposing (Alignment(..), Behavior(..), alignmentEncoder, behaviorEncoder, encoder)
+module ScrollIntoView exposing (Alignment(..), Behavior(..), Options, alignmentEncoder, behaviorEncoder, encoder)
 
 import Json.Encode
 import TsInterop.Encode exposing (Encoder, buildUnion, object, optional, union, variantLiteral)
@@ -14,6 +14,13 @@ type Alignment
     | Center
     | End
     | Nearest
+
+
+type alias Options =
+    { behavior : Maybe Behavior
+    , block : Maybe Alignment
+    , inline : Maybe Alignment
+    }
 
 
 encoder :
