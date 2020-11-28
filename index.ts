@@ -18,5 +18,14 @@ app.ports.fromElm.subscribe((fromElm) => {
     case "ScrollIntoView":
       document.getElementById(fromElm.id)?.scrollIntoView(fromElm.options);
       break;
+    case "RelativeTimeFormat":
+      console.log(
+        new Intl.RelativeTimeFormat(fromElm.options.locales, {
+          numeric: "auto",
+          style: fromElm.options.style,
+        }).format(fromElm.options.value, fromElm.options.unit)
+      );
+
+      break;
   }
 });

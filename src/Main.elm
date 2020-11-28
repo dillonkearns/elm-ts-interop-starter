@@ -7,6 +7,7 @@ import Html.Attributes exposing (href, id)
 import Html.Events exposing (onClick)
 import InteropDefinitions
 import Json.Decode
+import RelativeTimeFormat
 
 
 main : Program Json.Decode.Value Model Msg
@@ -40,6 +41,7 @@ init flags =
 type Msg
     = SendAlert
     | ScrollTo Int
+    | RelativeFormat
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -63,6 +65,18 @@ update msg model =
                     }
             )
 
+        RelativeFormat ->
+            ( model
+            , GeneratedPorts.toJs <|
+                InteropDefinitions.RelativeTimeFormat
+                    { locale = Just RelativeTimeFormat.En
+                    , value = -1
+                    , unit = RelativeTimeFormat.Days
+                    , style = RelativeTimeFormat.Long
+                    , numeric = RelativeTimeFormat.Auto
+                    }
+            )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
@@ -74,6 +88,7 @@ view model =
     div []
         ([ h1 [] [ text "Echo Chat" ]
          , button [ Html.Events.onClick SendAlert ] [ text "Alert" ]
+         , button [ Html.Events.onClick RelativeFormat ] [ text "Relative Format" ]
          , div [] buttons
          ]
             ++ (List.range 1 10
