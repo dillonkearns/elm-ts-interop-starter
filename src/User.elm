@@ -18,8 +18,8 @@ type User
     | Regular { name : String, id : String }
 
 
-userEncoder : Encoder User
-userEncoder =
+encoder : Encoder User
+encoder =
     Encode.union
         (\vAdmin vGuest vRegular value ->
             case value of
@@ -53,8 +53,8 @@ userEncoder =
         |> Encode.buildUnion
 
 
-userDecoder : Decoder User
-userDecoder =
+decoder : Decoder User
+decoder =
     Decode.oneOf
         [ Decode.succeed (\() id -> Admin { id = id })
             |> Decode.andMap (Decode.field "kind" (Decode.literal () (JE.string "admin")))
