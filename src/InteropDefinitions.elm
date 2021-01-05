@@ -1,11 +1,11 @@
-module InteropDefinitions exposing (ToJs(..), interop)
+module InteropDefinitions exposing (Flags, ToElm, ToJs(..), interop)
 
-import Json.Decode
-import Json.Encode
+import Json.Decode as JD
+import Json.Encode as JE
 import RelativeTimeFormat
 import ScrollIntoView
-import TsInterop.Decode as Decode
-import TsInterop.Encode as Encoder exposing (optional, required)
+import TsInterop.Decode as Decode exposing (Decoder)
+import TsInterop.Encode as Encoder exposing (Encoder, optional, required)
 import User
 
 
@@ -17,7 +17,15 @@ type ToJs
     | User User.User
 
 
-interop : { toElm : Decode.Decoder (), fromElm : Encoder.Encoder ToJs, flags : Decode.Decoder () }
+type alias ToElm =
+    ()
+
+
+type alias Flags =
+    ()
+
+
+interop : { toElm : Decoder ToElm, fromElm : Encoder ToJs, flags : Decode.Decoder Flags }
 interop =
     { toElm = Decode.null ()
     , fromElm = fromElm

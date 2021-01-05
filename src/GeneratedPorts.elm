@@ -1,6 +1,6 @@
 port module GeneratedPorts exposing (decodeFlags, fromJs, toJs)
 
-import InteropDefinitions exposing (ToJs)
+import InteropDefinitions exposing (ToJs, ToElm, Flags)
 import Json.Decode
 import Json.Encode
 import TsInterop.Decode as Decode
@@ -14,14 +14,14 @@ toJs value =
         |> fromElm
 
 
-fromJs : Sub (Result Json.Decode.Error ())
+fromJs : Sub (Result Json.Decode.Error ToElm)
 fromJs =
     (InteropDefinitions.interop.toElm |> Decode.decoder)
         |> Json.Decode.decodeValue
         |> toElm
 
 
-decodeFlags : Json.Decode.Value -> Result Json.Decode.Error ()
+decodeFlags : Json.Decode.Value -> Result Json.Decode.Error Flags
 decodeFlags flags =
     Json.Decode.decodeValue
         (InteropDefinitions.interop.flags |> Decode.decoder)
