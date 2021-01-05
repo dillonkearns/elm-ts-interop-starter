@@ -6,6 +6,7 @@ import RelativeTimeFormat
 import ScrollIntoView
 import TsInterop.Decode as Decode
 import TsInterop.Encode as Encoder exposing (optional, required)
+import User
 
 
 type ToJs
@@ -13,6 +14,7 @@ type ToJs
     | Alert String
     | ScrollIntoView { id : String, options : ScrollIntoView.Options }
     | RelativeTimeFormat RelativeTimeFormat.Options
+    | User User.User
 
 
 interop : { toElm : Decode.Decoder (), fromElm : Encoder.Encoder ToJs, flags : Decode.Decoder () }
@@ -26,7 +28,7 @@ interop =
 fromElm : Encoder.Encoder ToJs
 fromElm =
     Encoder.union
-        (\vSendHeartbeat vAlert vScrollIntoView vRelativeTimeFormat value ->
+        (\vSendHeartbeat vAlert vScrollIntoView vRelativeTimeFormat vUser value ->
             case value of
                 SendPresenceHeartbeat ->
                     vSendHeartbeat
@@ -39,6 +41,9 @@ fromElm =
 
                 RelativeTimeFormat options ->
                     vRelativeTimeFormat options
+
+                User user ->
+                    vUser user
         )
         |> Encoder.variant0 "SendPresenceHeartbeat"
         |> Encoder.variantObject "Alert" [ required "message" identity Encoder.string ]
@@ -47,4 +52,5 @@ fromElm =
             , required "id" .id Encoder.string
             ]
         |> Encoder.variantObject "RelativeTimeFormat" [ required "options" identity RelativeTimeFormat.encoder ]
+        |> Encoder.variantObject "User" [ required "data" identity User.encoder ]
         |> Encoder.buildUnion

@@ -1,6 +1,12 @@
 import { Elm } from "./src/Main";
 import Bugsnag, { NotifiableError, Event } from "@bugsnag/js";
 
+const error: NotifiableError = {
+  errorClass: "",
+  errorMessage: "",
+};
+Bugsnag.notify(error);
+
 const app = Elm.Main.init({
   node: document.querySelector("main"),
   flags: null,
