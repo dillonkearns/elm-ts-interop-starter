@@ -41,7 +41,7 @@ init flags =
 
 type Msg
     = SendAlert
-    | ScrollTo Int
+    | ScrollTo String
     | RelativeFormat
 
 
@@ -53,10 +53,10 @@ update msg model =
             , InteropPorts.alert "Hi!!!"
             )
 
-        ScrollTo number ->
+        ScrollTo string ->
             ( model
             , InteropPorts.scrollIntoView
-                { id = "header-" ++ String.fromInt number
+                { id = string
                 , options =
                     { behavior = Nothing
                     , block = Nothing
@@ -90,62 +90,49 @@ view model =
          , button [ Html.Events.onClick RelativeFormat ] [ text "Relative Format" ]
          , div [] buttons
          ]
-            ++ (List.range 1 10
-                    |> List.map ipsum
-                    |> List.concat
+            ++ (places
+                    |> List.map image
                )
         )
 
 
+places : List { name : String, url : String }
+places =
+    [ { name = "Hawaii"
+      , url = "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2249&q=80"
+      }
+    , { name = "Norway"
+      , url = "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80"
+      }
+    , { name = "Alaska"
+      , url = "https://images.unsplash.com/photo-1507939040444-21d4dca3781e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80"
+      }
+    , { name = "India"
+      , url = "https://images.unsplash.com/photo-1523428461295-92770e70d7ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1882&q=80"
+      }
+    ]
+
+
+image : { name : String, url : String } -> Html msg
+image info =
+    div []
+        [ h2 [ id info.name ] [ text info.name ]
+        , img
+            [ Html.Attributes.src info.url
+            , Html.Attributes.style "height" "600px"
+            ]
+            []
+        ]
+
+
 buttons : List (Html Msg)
 buttons =
-    List.range 1 10
+    places
         |> List.map ipsumButton
 
 
-ipsumButton : Int -> Html Msg
-ipsumButton number =
-    button [ onClick <| ScrollTo number ]
-        [ text <| String.fromInt number
+ipsumButton : { name : String, url : String } -> Html Msg
+ipsumButton info =
+    button [ onClick <| ScrollTo info.name ]
+        [ text <| info.name
         ]
-
-
-ipsum : Int -> List (Html msg)
-ipsum number =
-    [ h2 [ id <| "header-" ++ String.fromInt number ]
-        [ text <| "Heading " ++ String.fromInt number ]
-    , p []
-        [ strong []
-            [ text "Pellentesque habitant morbi tristique" ]
-        , text "senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. "
-        , em []
-            [ text "Aenean ultricies mi vitae est." ]
-        , text "Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, "
-        , code []
-            [ text "commodo vitae" ]
-        , text ", ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. "
-        , a [ href "#" ]
-            [ text "Donec non enim" ]
-        , text "in turpis pulvinar facilisis. Ut felis."
-        ]
-    , h2 []
-        [ text "Header Level 2" ]
-    , ol []
-        [ li []
-            [ text "Lorem ipsum dolor sit amet, consectetuer adipiscing elit." ]
-        , li []
-            [ text "Aliquam tincidunt mauris eu risus." ]
-        ]
-    , blockquote []
-        [ p []
-            [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est." ]
-        ]
-    , h3 []
-        [ text "Header Level 3" ]
-    , ul []
-        [ li []
-            [ text "Lorem ipsum dolor sit amet, consectetuer adipiscing elit." ]
-        , li []
-            [ text "Aliquam tincidunt mauris eu risus." ]
-        ]
-    ]
