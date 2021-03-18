@@ -3,15 +3,15 @@ module Main exposing (main)
 import Browser
 import GeneratedPorts
 import Html exposing (..)
-import Html.Attributes exposing (href, id)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (href, id, type_, value)
+import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
 import InteropDefinitions
 import InteropPorts
-import Json.Decode
+import Json.Decode as JD
 import RelativeTimeFormat
 
 
-main : Program Json.Decode.Value Model Msg
+main : Program JD.Value Model Msg
 main =
     Browser.element
         { init = init
@@ -24,17 +24,19 @@ main =
 type alias Model =
     { draft : String
     , messages : List String
+    , input : String
+    , yesterdayInLocale : String
     }
 
 
-init : Json.Decode.Value -> ( Model, Cmd Msg )
+init : JD.Value -> ( Model, Cmd Msg )
 init flags =
     case flags |> GeneratedPorts.decodeFlags of
         Err flagsError ->
-            Debug.todo <| Json.Decode.errorToString flagsError
+            Debug.todo <| JD.errorToString flagsError
 
         Ok decodedFlags ->
-            ( { draft = "", messages = [] }
+            ( { draft = "", messages = [], input = "", yesterdayInLocale = "Not sent yet" }
             , Cmd.none
             )
 
@@ -43,6 +45,7 @@ type Msg
     = SendAlert
     | ScrollTo String
     | RelativeFormat
+    | UpdateAlertText String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -50,7 +53,7 @@ update msg model =
     case msg of
         SendAlert ->
             ( model
-            , InteropPorts.alert "Hi!!!"
+            , InteropPorts.alert model.input
             )
 
         ScrollTo string ->
@@ -76,6 +79,9 @@ update msg model =
                 }
             )
 
+        UpdateAlertText newText ->
+            ( { model | input = newText }, Cmd.none )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
@@ -86,9 +92,30 @@ view : Model -> Html Msg
 view model =
     div []
         ([ h1 [] [ text "Echo Chat" ]
-         , button [ Html.Events.onClick SendAlert ] [ text "Alert" ]
-         , button [ Html.Events.onClick RelativeFormat ] [ text "Relative Format" ]
-         , div [] buttons
+         , div []
+            [ form
+                [ onSubmit SendAlert
+                ]
+                [ label []
+                    [ text "Message: "
+                    , input
+                        [ value model.input
+                        , type_ "text"
+                        , onInput UpdateAlertText
+                        ]
+                        []
+                    ]
+                , button
+                    [ type_ "submit"
+                    ]
+                    [ text "Alert" ]
+                ]
+            ]
+         , button [ Html.Events.onClick RelativeFormat ] [ text "Yesterday in Locale" ]
+         , div []
+            (h2 [] [ text "Scroll to Photo" ]
+                :: buttons
+            )
          ]
             ++ (places
                     |> List.map image
