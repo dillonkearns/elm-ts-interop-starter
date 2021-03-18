@@ -4,8 +4,8 @@ import Json.Decode as JD
 import Json.Encode as JE
 import RelativeTimeFormat
 import ScrollIntoView
-import TsInterop.Decode as Decode exposing (Decoder)
-import TsInterop.Encode as Encoder exposing (Encoder, optional, required)
+import TsJson.Decode as Decode exposing (Decoder)
+import TsJson.Encode as Encoder exposing (Encoder, optional, required)
 import User
 
 

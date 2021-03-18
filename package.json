@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-serve --port 1234 --open",
+    "generate:pro": "elm-ts-interop-pro --entrypoint Main --definitions src/ProDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts"
   },
@@ -12,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@incrementalelm/elm-ts-interop-pro": "^0.0.19",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
     "elm-hot-webpack-loader": "^1.1.7",
@@ -25,7 +27,6 @@
   },
   "dependencies": {
     "@bugsnag/js": "^7.5.1",
-    "@incrementalelm/elm-ts-interop-pro": "0.0.3",
     "node-elm-compiler": "^5.0.5"
   }
 }

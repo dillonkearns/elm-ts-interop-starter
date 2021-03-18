@@ -12,26 +12,27 @@ const app = Elm.Main.init({
   flags: null,
 });
 
-app.ports.fromElm.subscribe((fromElm) => {
+console.log(app);
+
+app.ports.interopFromElm.subscribe((fromElm) => {
   console.log({ fromElm });
 
   switch (fromElm.tag) {
-    case "Alert":
-      alert(fromElm.message);
+    case "alert":
+      alert(fromElm.data.message);
       break;
-    case "SendPresenceHeartbeat":
+    case "scrollIntoView":
+      document
+        .getElementById(fromElm.data.id)
+        ?.scrollIntoView(fromElm.data.options);
       break;
-    case "ScrollIntoView":
-      document.getElementById(fromElm.id)?.scrollIntoView(fromElm.options);
-      break;
-    case "RelativeTimeFormat":
+    case "relativeTimeFormat":
       console.log(
-        new Intl.RelativeTimeFormat(fromElm.options.locales, {
+        new Intl.RelativeTimeFormat(fromElm.data.options.locales, {
           numeric: "auto",
-          style: fromElm.options.style,
-        }).format(fromElm.options.value, fromElm.options.unit)
+          style: fromElm.data.options.style,
+        }).format(fromElm.data.options.value, fromElm.data.options.unit)
       );
-
       break;
   }
 });

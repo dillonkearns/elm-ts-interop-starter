@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (href, id)
 import Html.Events exposing (onClick)
 import InteropDefinitions
+import InteropPorts
 import Json.Decode
 import RelativeTimeFormat
 
@@ -49,32 +50,30 @@ update msg model =
     case msg of
         SendAlert ->
             ( model
-            , GeneratedPorts.toJs <| InteropDefinitions.Alert "Hi!!!"
+            , InteropPorts.alert "Hi!!!"
             )
 
         ScrollTo number ->
             ( model
-            , GeneratedPorts.toJs <|
-                InteropDefinitions.ScrollIntoView
-                    { id = "header-" ++ String.fromInt number
-                    , options =
-                        { behavior = Nothing
-                        , block = Nothing
-                        , inline = Nothing
-                        }
+            , InteropPorts.scrollIntoView
+                { id = "header-" ++ String.fromInt number
+                , options =
+                    { behavior = Nothing
+                    , block = Nothing
+                    , inline = Nothing
                     }
+                }
             )
 
         RelativeFormat ->
             ( model
-            , GeneratedPorts.toJs <|
-                InteropDefinitions.RelativeTimeFormat
-                    { locale = Just RelativeTimeFormat.En
-                    , value = -1
-                    , unit = RelativeTimeFormat.Days
-                    , style = RelativeTimeFormat.Long
-                    , numeric = RelativeTimeFormat.Auto
-                    }
+            , InteropPorts.relativeTimeFormat
+                { locale = Just RelativeTimeFormat.En
+                , value = -1
+                , unit = RelativeTimeFormat.Days
+                , style = RelativeTimeFormat.Long
+                , numeric = RelativeTimeFormat.Auto
+                }
             )
 
 

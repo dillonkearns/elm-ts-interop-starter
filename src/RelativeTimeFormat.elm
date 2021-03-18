@@ -4,7 +4,7 @@ module RelativeTimeFormat exposing (..)
 -}
 
 import Json.Encode as Encode
-import TsInterop.Encode as Encoder exposing (Encoder, optional, required)
+import TsJson.Encode as Encoder exposing (Encoder, optional, required)
 
 
 

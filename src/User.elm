@@ -8,8 +8,8 @@ module User exposing (..)
 -}
 
 import Json.Encode as JE
-import TsInterop.Decode as Decode exposing (Decoder)
-import TsInterop.Encode as Encode exposing (Encoder)
+import TsJson.Decode as Decode exposing (Decoder)
+import TsJson.Encode as Encode exposing (Encoder)
 
 
 type User

@@ -2,3 +2,5 @@ dist/
 node_modules/
 elm-stuff/
 src/Main/index.d.ts
+gen/
+
