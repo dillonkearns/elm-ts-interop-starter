@@ -106,9 +106,7 @@ view model =
                 :: buttons
             )
          ]
-            ++ (places
-                    |> List.map image
-               )
+            ++ (places |> List.map photo)
         )
 
 
@@ -129,8 +127,8 @@ places =
     ]
 
 
-image : { name : String, url : String } -> Html msg
-image info =
+photo : { name : String, url : String } -> Html msg
+photo info =
     div []
         [ h2 [ id info.name ] [ text info.name ]
         , img
@@ -143,12 +141,11 @@ image info =
 
 buttons : List (Html Msg)
 buttons =
-    places
-        |> List.map ipsumButton
+    places |> List.map photoButton
 
 
-ipsumButton : { name : String, url : String } -> Html Msg
-ipsumButton info =
+photoButton : { name : String, url : String } -> Html Msg
+photoButton info =
     button [ onClick <| ScrollTo info.name ]
         [ text <| info.name
         ]
