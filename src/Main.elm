@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
+import InteropPorts
 import Json.Decode as JD
 
 
@@ -25,15 +26,20 @@ type alias Model =
 
 init : JD.Value -> ( Model, Cmd Msg )
 init flags =
-    let
-        osString =
-            "???"
-    in
-    ( { osMessage = "You're on " ++ osString ++ " OS."
-      , input = ""
-      }
-    , Cmd.none
-    )
+    case flags |> InteropPorts.decodeFlags of
+        Err error ->
+            Debug.todo <| Debug.toString error
+
+        Ok okFlags ->
+            let
+                osString =
+                    "???"
+            in
+            ( { osMessage = "You're on " ++ osString ++ " OS."
+              , input = ""
+              }
+            , Cmd.none
+            )
 
 
 type Msg

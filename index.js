@@ -1,7 +1,8 @@
+/// <reference path="./src/Main/index.d.ts" />
 document.addEventListener("DOMContentLoaded", function (event) {
   const app = Elm.Main.init({
     node: document.querySelector("main"),
-    flags: null,
+    flags: true,
   });
 });
 
