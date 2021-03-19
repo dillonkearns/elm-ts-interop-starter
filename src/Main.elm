@@ -1,11 +1,9 @@
 module Main exposing (main)
 
 import Browser
-import GeneratedPorts
 import Html exposing (..)
 import Html.Attributes exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
-import InteropDefinitions
 import InteropPorts
 import Json.Decode as JD
 import RelativeTimeFormat
