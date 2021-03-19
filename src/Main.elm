@@ -20,11 +20,8 @@ main =
 
 
 type alias Model =
-    { draft : String
-    , osMessage : String
-    , messages : List String
+    { osMessage : String
     , input : String
-    , yesterdayInLocale : String
     }
 
 
@@ -37,13 +34,10 @@ init flags =
         Ok decodedFlags ->
             let
                 osString =
-                    "???"
+                    Debug.toString decodedFlags
             in
-            ( { draft = ""
-              , osMessage = "You're on " ++ osString ++ " OS."
-              , messages = []
+            ( { osMessage = "You're on " ++ osString ++ " OS."
               , input = ""
-              , yesterdayInLocale = "Not sent yet"
               }
             , Cmd.none
             )
