@@ -6,7 +6,6 @@ import Html.Attributes exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
 import InteropPorts
 import Json.Decode as JD
-import RelativeTimeFormat
 
 
 main : Program JD.Value Model Msg
@@ -46,7 +45,6 @@ init flags =
 type Msg
     = SendAlert
     | ScrollTo String
-    | RelativeFormat
     | UpdateAlertText String
 
 
@@ -67,17 +65,6 @@ update msg model =
                     , block = Nothing
                     , inline = Nothing
                     }
-                }
-            )
-
-        RelativeFormat ->
-            ( model
-            , InteropPorts.relativeTimeFormat
-                { locale = Just RelativeTimeFormat.En
-                , value = -1
-                , unit = RelativeTimeFormat.Days
-                , style = RelativeTimeFormat.Long
-                , numeric = RelativeTimeFormat.Auto
                 }
             )
 
