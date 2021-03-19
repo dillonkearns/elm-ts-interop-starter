@@ -99,7 +99,7 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
     div []
-        ([ h1 [] [ text "Echo Chat" ]
+        ([ h1 [] [ text "elm-ts-interop demo" ]
          , div []
             [ form
                 [ onSubmit SendAlert
