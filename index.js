@@ -62,3 +62,15 @@ function trySend(app, portName, sendFunction, onMissing) {
     onMissing && onMissing();
   }
 }
+
+function getOsName() {
+  if (window.navigator.userAgent.includes("Windows")) {
+    return "Windows";
+  } else if (window.navigator.userAgent.includes("Mac")) {
+    return "Mac";
+  } else if (window.navigator.userAgent.includes("Linux")) {
+    return "Linux";
+  } else {
+    return null;
+  }
+}
