@@ -5,38 +5,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
 });
 
-/**
- * @param {Elm.ElmApp} app
- * @param {string} portName
- * @param {(portObject: Elm.PortFromElm<unknown>) => void} subscribeFunction
- * @param {() => void} [ onMissing ]
- */
-function trySubscribe(app, portName, subscribeFunction, onMissing) {
-  const maybePort = app.ports[portName];
-
-  if (maybePort && "subscribe" in maybePort) {
-    subscribeFunction(maybePort);
-  } else {
-    onMissing && onMissing();
-  }
-}
-
-/**
- * @param {Elm.ElmApp} app
- * @param {string} portName
- * @param {(portObject: Elm.PortToElm<unknown>) => void} sendFunction
- * @param {() => void} [ onMissing ]
- */
-function trySend(app, portName, sendFunction, onMissing) {
-  const maybePort = app.ports[portName];
-
-  if (maybePort && "send" in maybePort) {
-    sendFunction(maybePort);
-  } else {
-    onMissing && onMissing();
-  }
-}
-
 function getOsName() {
   if (window.navigator.userAgent.includes("Windows")) {
     return "Windows";
