@@ -4,9 +4,25 @@ import Json.Decode as JD
 import Json.Encode as JE
 import RelativeTimeFormat
 import ScrollIntoView
-import TsJson.Decode as Decode exposing (Decoder)
+import TsJson.Decode as TsDecode exposing (Decoder)
 import TsJson.Encode as TsEncode exposing (Encoder, optional, required)
 import User
+
+
+type Os
+    = Mac
+    | Windows
+    | Linux
+
+
+flags : Decoder Os
+flags =
+    TsDecode.field "os"
+        (TsDecode.oneOf
+            [ TsDecode.literal Mac (JE.string "Mac")
+            , TsDecode.literal Windows (JE.string "Windows")
+            ]
+        )
 
 
 alert : Encoder String

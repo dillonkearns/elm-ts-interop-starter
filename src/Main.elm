@@ -23,6 +23,7 @@ main =
 
 type alias Model =
     { draft : String
+    , osMessage : String
     , messages : List String
     , input : String
     , yesterdayInLocale : String
@@ -31,12 +32,21 @@ type alias Model =
 
 init : JD.Value -> ( Model, Cmd Msg )
 init flags =
-    case flags |> GeneratedPorts.decodeFlags of
+    case flags |> InteropPorts.decodeFlags of
         Err flagsError ->
             Debug.todo <| JD.errorToString flagsError
 
         Ok decodedFlags ->
-            ( { draft = "", messages = [], input = "", yesterdayInLocale = "Not sent yet" }
+            let
+                osString =
+                    "???"
+            in
+            ( { draft = ""
+              , osMessage = "You're on " ++ osString ++ " OS."
+              , messages = []
+              , input = ""
+              , yesterdayInLocale = "Not sent yet"
+              }
             , Cmd.none
             )
 
@@ -111,7 +121,7 @@ view model =
                     [ text "Alert" ]
                 ]
             ]
-         , button [ Html.Events.onClick RelativeFormat ] [ text "Yesterday in Locale" ]
+         , div [] [ p [] [ text model.osMessage ] ]
          , div []
             (h2 [] [ text "Scroll to Photo" ]
                 :: buttons

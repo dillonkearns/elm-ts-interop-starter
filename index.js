@@ -3,7 +3,9 @@
 document.addEventListener("DOMContentLoaded", function (event) {
   const app = Elm.Main.init({
     node: document.querySelector("main"),
-    flags: null,
+    flags: {
+      os: "Windows",
+    },
   });
   app.ports.interopFromElm.subscribe((fromElm) => {
     console.log({ fromElm });
