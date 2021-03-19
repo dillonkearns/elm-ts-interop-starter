@@ -4,7 +4,6 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
-import InteropPorts
 import Json.Decode as JD
 
 
@@ -26,20 +25,15 @@ type alias Model =
 
 init : JD.Value -> ( Model, Cmd Msg )
 init flags =
-    case flags |> InteropPorts.decodeFlags of
-        Err flagsError ->
-            Debug.todo <| JD.errorToString flagsError
-
-        Ok decodedFlags ->
-            let
-                osString =
-                    Debug.toString decodedFlags
-            in
-            ( { osMessage = "You're on " ++ osString ++ " OS."
-              , input = ""
-              }
-            , Cmd.none
-            )
+    let
+        osString =
+            "???"
+    in
+    ( { osMessage = "You're on " ++ osString ++ " OS."
+      , input = ""
+      }
+    , Cmd.none
+    )
 
 
 type Msg
@@ -53,19 +47,12 @@ update msg model =
     case msg of
         SendAlert ->
             ( model
-            , InteropPorts.alert model.input
+            , Cmd.none
             )
 
         ScrollTo string ->
             ( model
-            , InteropPorts.scrollIntoView
-                { id = string
-                , options =
-                    { behavior = Nothing
-                    , block = Nothing
-                    , inline = Nothing
-                    }
-                }
+            , Cmd.none
             )
 
         UpdateAlertText newText ->
