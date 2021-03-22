@@ -6,6 +6,7 @@
   "scripts": {
     "start": "elm-live src/Main.elm -- --output elm.js",
     "generate:pro": "elm-ts-interop-pro --entrypoint Main --definitions src/ProDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
+    "generate:pro:watch": "chokidar \"src/**/*.elm\" --initial --command \"npm run generate:pro\"",
     "lint": "eslint index.js"
   },
   "author": "Dillon Kearns",
@@ -14,6 +15,7 @@
     "@incrementalelm/elm-ts-interop-pro": "^0.0.21",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
+    "chokidar-cli": "^2.1.0",
     "elm-live": "^4.0.2",
     "eslint": "^7.13.0",
     "typescript": "^4.0.5"
