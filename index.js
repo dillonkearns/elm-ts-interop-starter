@@ -1,6 +1,6 @@
 /// <reference path="./src/Main/index.d.ts" />
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
   const app = Elm.Main.init({
     node: document.querySelector("main"),
     flags: {
@@ -12,65 +12,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     switch (fromElm.tag) {
       case "alert":
-        alert(fromElm.data.message);
+        alert(fromElm.data);
         break;
       case "scrollIntoView":
         document
           .getElementById(fromElm.data.id)
           ?.scrollIntoView(fromElm.data.options);
         break;
-      case "relativeTimeFormat":
-        console.log(
-          new Intl.RelativeTimeFormat(fromElm.data.options.locales, {
-            numeric: "auto",
-            style: fromElm.data.options.style,
-          }).format(fromElm.data.options.value, fromElm.data.options.unit)
-        );
-        break;
     }
   });
 });
-
-/**
- * @param {Elm.ElmApp} app
- * @param {string} portName
- * @param {(portObject: Elm.PortFromElm<unknown>) => void} subscribeFunction
- * @param {() => void} [ onMissing ]
- */
-function trySubscribe(app, portName, subscribeFunction, onMissing) {
-  const maybePort = app.ports[portName];
-
-  if (maybePort && "subscribe" in maybePort) {
-    subscribeFunction(maybePort);
-  } else {
-    onMissing && onMissing();
-  }
-}
-
-/**
- * @param {Elm.ElmApp} app
- * @param {string} portName
- * @param {(portObject: Elm.PortToElm<unknown>) => void} sendFunction
- * @param {() => void} [ onMissing ]
- */
-function trySend(app, portName, sendFunction, onMissing) {
-  const maybePort = app.ports[portName];
-
-  if (maybePort && "send" in maybePort) {
-    sendFunction(maybePort);
-  } else {
-    onMissing && onMissing();
-  }
-}
-
-function getOsName() {
-  if (window.navigator.userAgent.includes("Windows")) {
-    return "Windows";
-  } else if (window.navigator.userAgent.includes("Mac")) {
-    return "Mac";
-  } else if (window.navigator.userAgent.includes("Linux")) {
-    return "Linux";
-  } else {
-    return null;
-  }
-}
