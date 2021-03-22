@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "elm-live src/Main.elm -- --output elm.js",
+    "generate:ts-interop": "elm-ts-interop-pro --gen-directory gen --output src/Main/index.d.ts",
     "lint": "eslint . --ext .ts"
   },
   "author": "Dillon Kearns",

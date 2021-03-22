@@ -6,6 +6,7 @@ import Html.Attributes exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
 import InteropPorts
 import Json.Decode as JD
+import ScrollIntoView
 
 
 main : Program JD.Value Model Msg
@@ -33,7 +34,7 @@ init flags =
         Ok okFlags ->
             let
                 osString =
-                    "???"
+                    Debug.toString okFlags.os
             in
             ( { osMessage = "You're on " ++ osString ++ " OS."
               , input = ""
@@ -53,12 +54,18 @@ update msg model =
     case msg of
         SendAlert ->
             ( model
-            , Cmd.none
+            , InteropPorts.alert model.input
             )
 
         ScrollTo string ->
             ( model
-            , Cmd.none
+            , InteropPorts.scrollIntoView
+                { id = string
+                , options =
+                    { block = Nothing
+                    , inline = Nothing
+                    }
+                }
             )
 
         UpdateAlertText newText ->

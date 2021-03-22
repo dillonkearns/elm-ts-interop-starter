@@ -2,7 +2,22 @@
 document.addEventListener("DOMContentLoaded", function (event) {
   const app = Elm.Main.init({
     node: document.querySelector("main"),
-    flags: true,
+    flags: { os: getOsName() },
+  });
+  app.ports.interopFromElm.subscribe((fromElm) => {
+    switch (fromElm.tag) {
+      case "alert": {
+        alert(fromElm.data);
+        break;
+      }
+      case "scrollIntoView": {
+        document
+          .getElementById(fromElm.data.id)
+          ?.scrollIntoView(fromElm.data.options);
+
+        break;
+      }
+    }
   });
 });
 
