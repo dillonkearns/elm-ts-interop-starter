@@ -1,17 +1,16 @@
-module InteropDefinitions exposing (Flags, ToElm, ToJs(..), interop)
+module InteropDefinitions exposing (Flags, FromElm(..), ToElm, interop)
 
 import Json.Decode as JD
 import Json.Encode as JE
 import RelativeTimeFormat
 import ScrollIntoView
-import TsJson.Decode as Decode exposing (Decoder)
-import TsJson.Encode as Encoder exposing (Encoder, optional, required)
+import TsJson.Decode as TsDecode exposing (Decoder)
+import TsJson.Encode as TsEncode exposing (Encoder, optional, required)
 import User
 
 
-type ToJs
-    = SendPresenceHeartbeat
-    | Alert String
+type FromElm
+    = Alert String
     | ScrollIntoView { id : String, options : ScrollIntoView.Options }
     | RelativeTimeFormat RelativeTimeFormat.Options
     | User User.User
@@ -22,43 +21,64 @@ type alias ToElm =
 
 
 type alias Flags =
-    ()
+    Os
 
 
-interop : { toElm : Decoder ToElm, fromElm : Encoder ToJs, flags : Decode.Decoder Flags }
+interop : { toElm : Decoder ToElm, fromElm : Encoder FromElm, flags : TsDecode.Decoder Flags }
 interop =
-    { toElm = Decode.null ()
+    { toElm = TsDecode.null ()
     , fromElm = fromElm
-    , flags = Decode.null ()
+    , flags = flags
     }
 
 
-fromElm : Encoder.Encoder ToJs
+fromElm : TsEncode.Encoder FromElm
 fromElm =
-    Encoder.union
-        (\vSendHeartbeat vAlert vScrollIntoView vRelativeTimeFormat vUser value ->
+    TsEncode.union
+        (\vAlert vScrollIntoView vRelativeTimeFormat vUser value ->
             case value of
-                SendPresenceHeartbeat ->
-                    vSendHeartbeat
-
                 Alert string ->
                     vAlert string
 
-                ScrollIntoView record ->
-                    vScrollIntoView record
+                ScrollIntoView info ->
+                    vScrollIntoView info
 
-                RelativeTimeFormat options ->
-                    vRelativeTimeFormat options
+                RelativeTimeFormat info ->
+                    vRelativeTimeFormat info
 
-                User user ->
-                    vUser user
+                User info ->
+                    vUser info
         )
-        |> Encoder.variant0 "SendPresenceHeartbeat"
-        |> Encoder.variantObject "Alert" [ required "message" identity Encoder.string ]
-        |> Encoder.variantObject "ScrollIntoView"
-            [ required "options" .options ScrollIntoView.encoder
-            , required "id" .id Encoder.string
+        |> TsEncode.variantTagged "alert"
+            (TsEncode.object [ required "message" identity TsEncode.string ])
+        |> TsEncode.variantTagged "scrollIntoView"
+            (TsEncode.object
+                [ required "options" .options ScrollIntoView.encoder
+                , required "id" .id TsEncode.string
+                ]
+            )
+        |> TsEncode.variantTagged "relativeTimeFormat"
+            (TsEncode.object
+                [ required "options" identity RelativeTimeFormat.encoder ]
+            )
+        |> TsEncode.variantTagged "user"
+            (TsEncode.object
+                [ required "data" identity User.encoder ]
+            )
+        |> TsEncode.buildUnion
+
+
+type Os
+    = Mac
+    | Windows
+    | Linux
+
+
+flags : Decoder Flags
+flags =
+    TsDecode.field "os"
+        (TsDecode.oneOf
+            [ TsDecode.literal Mac (JE.string "Mac")
+            , TsDecode.literal Windows (JE.string "Windows")
             ]
-        |> Encoder.variantObject "RelativeTimeFormat" [ required "options" identity RelativeTimeFormat.encoder ]
-        |> Encoder.variantObject "User" [ required "data" identity User.encoder ]
-        |> Encoder.buildUnion
+        )
