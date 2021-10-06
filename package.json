@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "elm-live src/Main.elm -- --output elm.js",
-    "generate:community": "elm-ts-interop --definition-module CommunityDefinitions --output src/Main/index.d.ts",
-    "generate:pro": "elm-ts-interop-pro --entrypoint Main --definitions src/ProDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
-    "generate:pro:watch": "chokidar \"src/**/*.elm\" --initial --command \"npm run generate:pro\"",
+    "generate": "elm-ts-interop-pro --entrypoint Main --definitions src/InteropDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
+    "generate:watch": "chokidar \"src/**/*.elm\" --initial --command \"npm run generate\"",
     "lint": "eslint index.js"
   },
   "author": "Dillon Kearns",
