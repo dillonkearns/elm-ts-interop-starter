@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "elm-live src/Main.elm -- --output elm.js",
+    "generate": "elm-ts-interop --definition-module CommunityDefinitions",
     "generate:pro": "elm-ts-interop-pro --entrypoint Main --definitions src/ProDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
     "generate:pro:watch": "chokidar \"src/**/*.elm\" --initial --command \"npm run generate:pro\"",
     "lint": "eslint index.js"
@@ -17,6 +18,7 @@
     "@typescript-eslint/parser": "^4.19.0",
     "chokidar-cli": "^2.1.0",
     "elm-live": "^4.0.2",
+    "elm-ts-interop": "^0.0.3",
     "eslint": "^7.13.0",
     "typescript": "^4.0.5"
   }
