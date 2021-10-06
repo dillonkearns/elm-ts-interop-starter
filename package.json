@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "elm-live src/Main.elm -- --output elm.js",
-    "generate:community": "elm-ts-interop --definition-module CommunityDefinitions --output src/Main/index.d.ts",
+    "generate": "elm-ts-interop --definition-module CommunityDefinitions --output src/Main/index.d.ts",
     "lint": "eslint index.js"
   },
   "author": "Dillon Kearns",

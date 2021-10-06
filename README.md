@@ -10,10 +10,12 @@ The result of running both of these will give you the exact same TypeScript Decl
 
 ```shell
 npm install
-npm run generate:community
+npm run generate
 ```
 
 ### Pro Edition (Paid)
+
+To setup the pro edition, checkout [the starter repo's `pro` branch](https://github.com/dillonkearns/elm-ts-interop-starter/tree/pro).
 
 Note: in order to run the `elm-ts-interop-pro` executable, you will need to run npm install with your `NPM_TOKEN` environment variable.
 
