@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     switch (fromElm.tag) {
       case "alert":
-        alert(fromElm.data);
+        alert(fromElm.data.message);
         break;
       case "scrollIntoView":
         document
