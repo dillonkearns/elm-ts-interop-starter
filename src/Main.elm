@@ -28,7 +28,7 @@ type alias Model =
 
 init : JD.Value -> ( Model, Cmd Msg )
 init flags =
-    case flags |> JD.decodeValue (TsJson.Decode.decoder InteropDefinitions.interop.flags) of
+    case InteropPorts.decodeFlags flags of
         Err flagsError ->
             Debug.todo <| JD.errorToString flagsError
 
