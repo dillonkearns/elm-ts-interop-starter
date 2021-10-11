@@ -15,5 +15,5 @@ module.exports = {
     "@typescript-eslint/triple-slash-reference": "off",
     "no-undef": "off",
   },
-  ignorePatterns: ["elm.js", "src/Main/index.d.ts"],
+  ignorePatterns: ["elm.js", "src/Main.elm.d.ts"],
 };
