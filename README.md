@@ -1,4 +1,4 @@
-# elm-ts-interop starter
+# elm-ts-interop starter [![Netlify Status](https://api.netlify.com/api/v1/badges/bfc132cb-d50b-494b-8cb1-9c9a8705f2bd/deploy-status)](https://app.netlify.com/sites/elm-ts-interop-starter/deploys)
 
 ## Setup Instructions
 
