@@ -19,6 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
           .getElementById(fromElm.data.id)
           ?.scrollIntoView(fromElm.data.options);
         break;
+      case "user": {
+        console.log(fromElm.data);
+        break;
+      }
+      case "relativeTimeFormat": {
+        console.log(fromElm.data);
+        break;
+      }
     }
   });
 });
