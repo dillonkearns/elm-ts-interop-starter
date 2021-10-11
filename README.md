@@ -14,6 +14,8 @@ npm run generate # updates the generated TypeScript Declaration file
 npm start # runs the dev server for the example page
 ```
 
+The demo app is also running at <https://elm-ts-interop-starter.netlify.app/>.
+
 ### Pro Edition (Paid)
 
 To setup the pro edition, checkout [the starter repo's `pro` branch](https://github.com/dillonkearns/elm-ts-interop-starter/tree/pro).
