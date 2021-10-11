@@ -17,6 +17,6 @@
     "elm-live": "^4.0.2",
     "elm-ts-interop": "^0.0.3",
     "eslint": "^7.13.0",
-    "typescript": "^4.0.5"
+    "typescript": "^4.4.3"
   }
 }
