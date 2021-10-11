@@ -1,4 +1,4 @@
-import {Elm} from './src/Main.elm';
+import { Elm } from "./src/Main.elm";
 
 document.addEventListener("DOMContentLoaded", function () {
   const app = Elm.Main.init({
