@@ -4,8 +4,8 @@
   "description": "Starter repo for elm-ts-interop.",
   "main": "index.js",
   "scripts": {
-    "start": "elm-live src/Main.elm -- --output elm.js",
-    "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main/index.d.ts",
+    "start": "vite",
+    "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main.elm.d.ts",
     "lint": "eslint index.js"
   },
   "author": "Dillon Kearns",
@@ -14,9 +14,10 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "chokidar-cli": "^2.1.0",
-    "elm-live": "^4.0.2",
     "elm-ts-interop": "^0.0.3",
     "eslint": "^7.13.0",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.3",
+    "vite": "^2.6.7",
+    "vite-plugin-elm": "^2.5.0"
   }
 }

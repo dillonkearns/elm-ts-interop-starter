@@ -1,6 +1,6 @@
 dist/
 node_modules/
 elm-stuff/
-src/Main/index.d.ts
+src/Main.elm.d.ts
 gen/
 elm.js

@@ -1,4 +1,4 @@
-/// <reference path="./src/Main/index.d.ts" />
+import {Elm} from './src/Main.elm';
 
 document.addEventListener("DOMContentLoaded", function () {
   const app = Elm.Main.init({
