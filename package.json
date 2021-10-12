@@ -4,7 +4,7 @@
   "description": "Starter repo for elm-ts-interop.",
   "main": "index.js",
   "scripts": {
-    "start": "vite",
+    "start": "vite --port 1234",
     "build": "npm run generate && tsc --noEmit && vite build",
     "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main.elm.d.ts && npm run lint && prettier --write src/Main.elm.d.ts",
     "lint": "eslint index.ts",
