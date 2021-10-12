@@ -1,5 +1,8 @@
 # elm-ts-interop starter [![Netlify Status](https://api.netlify.com/api/v1/badges/bfc132cb-d50b-494b-8cb1-9c9a8705f2bd/deploy-status)](https://app.netlify.com/sites/elm-ts-interop-starter/deploys)
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/dillonkearns/elm-ts-interop-starter)
+
+
 ## Setup Instructions
 
 You can use the free Community Edition or the paid Pro Edition of `elm-ts-interop`.
