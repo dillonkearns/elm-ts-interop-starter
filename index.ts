@@ -1,4 +1,4 @@
-/// <reference path="./src/Main/index.d.ts" />
+import { Elm } from "./src/Main.elm";
 
 document.addEventListener("DOMContentLoaded", function () {
   const app = Elm.Main.init({
@@ -11,14 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log({ fromElm });
 
     switch (fromElm.tag) {
-      case "alert":
+      case "alert": {
         alert(fromElm.data.message);
         break;
-      case "scrollIntoView":
+      }
+      case "scrollIntoView": {
         document
           .getElementById(fromElm.data.id)
           ?.scrollIntoView(fromElm.data.options);
         break;
+      }
+      case "user": {
+        console.log(fromElm.data);
+        break;
+      }
+      case "relativeTimeFormat": {
+        console.log(fromElm.data);
+        break;
+      }
     }
   });
 });

@@ -2,23 +2,29 @@
   "name": "elm-ts-interop-starter",
   "version": "1.0.0",
   "description": "Starter repo for elm-ts-interop.",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "elm-live src/Main.elm -- --output elm.js",
-    "generate": "elm-ts-interop-pro --entrypoint Main --definitions src/InteropDefinitions.elm --output src/Main/index.d.ts --gen-directory gen",
+    "start": "vite --port 1234",
+    "generate": "elm-ts-interop-pro --entrypoint Main --definitions src/InteropDefinitions.elm --output src/Main.elm.d.ts --gen-directory gen",
     "generate:watch": "chokidar \"src/**/*.elm\" --initial --command \"npm run generate\"",
-    "lint": "eslint index.js"
+    "lint": "eslint index.ts",
+    "build": "npm run generate && npm run lint && tsc --noEmit && vite build",
+    "postinstall": "elm-tooling install"
   },
   "author": "Dillon Kearns",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@incrementalelm/elm-ts-interop-pro": "^0.0.21",
-    "@typescript-eslint/eslint-plugin": "^4.19.0",
-    "@typescript-eslint/parser": "^4.19.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "chokidar-cli": "^2.1.0",
-    "elm-live": "^4.0.2",
-    "elm-ts-interop": "^0.0.3",
-    "eslint": "^7.13.0",
-    "typescript": "^4.0.5"
+    "elm-tooling": "^1.6.0",
+    "elm-ts-interop": "^0.0.4",
+    "eslint": "^8.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3",
+    "vite": "^2.6.7",
+    "vite-plugin-elm": "^2.5.0",
+    "vite-plugin-eslint": "^1.3.0"
   }
 }
