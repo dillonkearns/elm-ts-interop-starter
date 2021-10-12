@@ -6,6 +6,17 @@ You can use the free Community Edition or the paid Pro Edition of `elm-ts-intero
 
 The result of running both of these will give you the exact same TypeScript Declaration file as output.
 
+This starter repo includes:
+
+- TypeScript
+- Vite
+- `eslint` with `@typescript-eslint/switch-exhaustiveness-check`
+- [`elm-ts-interop`](https://elm-ts-interop.com/)
+- [`elm-tooling-cli`](https://github.com/elm-tooling/elm-tooling-cli) to setup `elm` and `elm-format`
+- Recommended VS Code plugins (Elm, eslint, Prettier) ([these will show up when you open this project in VS Code](https://code.visualstudio.com/docs/editor/extension-marketplace#_recommended-extensions))
+- `netlify.toml` to deploy to Netlify
+- If you install the [`netlify-cli`](https://docs.netlify.com/cli/get-started/) NPM tool, you can use it to run your dev server with `netlify dev`
+
 ### Community Edition (Free)
 
 ```shell
