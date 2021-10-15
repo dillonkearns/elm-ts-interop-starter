@@ -7,6 +7,7 @@ export default defineConfig({
     elmPlugin({ debug: true }),
     eslintPlugin({
       include: ["index.ts"],
+      cache: false,
     }),
   ],
 });
