@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "vite --port 1234",
-    "build": "npm run generate && tsc --noEmit && vite build",
-    "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main.elm.d.ts && npm run lint && prettier --write src/Main.elm.d.ts",
+    "build": "npm run generate && tsc --noEmit && npm run lint && vite build",
+    "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main.elm.d.ts",
     "lint": "eslint index.ts",
     "postinstall": "elm-tooling install"
   },
@@ -16,6 +16,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "elm-tooling": "^1.6.0",
+    "elm-ts-interop": "^0.0.6",
     "eslint": "^8.0.0",
     "prettier": "^2.4.1",
     "tiny-decoders": "^6.0.0",
