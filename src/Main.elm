@@ -1,14 +1,13 @@
 module Main exposing (main)
 
 import Browser
+import Flags
 import Html exposing (..)
 import Html.Attributes as Attr exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
-import InteropDefinitions
-import InteropPorts
 import Json.Decode as Decode
 import Log
-import TsJson.Decode
+import User
 
 
 main : Program Decode.Value Model Msg
@@ -24,7 +23,6 @@ main =
 type Msg
     = LogMessage Log.Kind
     | OnInput String
-    | ToElm (Result Decode.Error InteropDefinitions.ToElm)
     | OnUsernameInput String
     | LogIn
 
@@ -32,8 +30,8 @@ type Msg
 type alias Model =
     { input : String
     , usernameInput : String
-    , flags : Result String InteropDefinitions.Flags
-    , user : Maybe InteropDefinitions.User
+    , flags : Result String Flags.Flags
+    , user : Maybe User.User
     , subscriptionErrors : List String
     }
 
@@ -42,9 +40,7 @@ init : Decode.Value -> ( Model, Cmd Msg )
 init flags =
     ( { input = ""
       , usernameInput = ""
-      , flags =
-            InteropPorts.decodeFlags flags
-                |> Result.mapError Decode.errorToString
+      , flags = Err "TODO - need to wire in Flags."
       , user = Nothing
       , subscriptionErrors = []
       }
@@ -57,12 +53,8 @@ update msg model =
     case msg of
         LogMessage kind ->
             ( model
-            , InteropPorts.fromElm
-                (InteropDefinitions.Log
-                    { kind = kind
-                    , message = model.input
-                    }
-                )
+            , Cmd.none
+              -- TODO send fromElm port
             )
 
         OnInput newText ->
@@ -71,32 +63,17 @@ update msg model =
         OnUsernameInput newText ->
             ( { model | usernameInput = newText }, Cmd.none )
 
-        ToElm toElm ->
-            case toElm of
-                Err error ->
-                    ( { model
-                        | subscriptionErrors =
-                            Decode.errorToString error
-                                :: model.subscriptionErrors
-                      }
-                    , Cmd.none
-                    )
-
-                Ok okToElm ->
-                    case okToElm of
-                        InteropDefinitions.AuthenticatedUser user ->
-                            ( { model | user = Just user }, Cmd.none )
-
-                        InteropDefinitions.UserNotFound ->
-                            ( { model | user = Nothing }, Cmd.none )
-
         LogIn ->
-            ( model, InteropPorts.fromElm (InteropDefinitions.AttemptLogIn model.usernameInput) )
+            ( model
+            , -- TODO send fromElm port
+              Cmd.none
+            )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    InteropPorts.toElm |> Sub.map ToElm
+    -- TODO handle toElm subscriptions
+    Sub.none
 
 
 view : Model -> Html Msg
@@ -175,7 +152,7 @@ logInView model =
         ]
 
 
-flagsView : Result String InteropDefinitions.Flags -> Html msg
+flagsView : Result String Flags.Flags -> Html msg
 flagsView result =
     div []
         [ h1 [] [ text "Flags" ]
