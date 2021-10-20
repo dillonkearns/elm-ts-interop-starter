@@ -3,40 +3,7 @@ import { Elm } from "./src/Main.elm";
 document.addEventListener("DOMContentLoaded", function () {
   const app = Elm.Main.init({
     node: document.querySelector("main"),
-    flags: {
-      dimensions: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      },
-    },
-  });
-
-  app.ports.interopFromElm.subscribe(async (fromElm) => {
-    switch (fromElm.tag) {
-      case "alert": {
-        const logKind = fromElm.data.kind;
-        if (logKind === "alert") {
-          alert(fromElm.data.message);
-        } else {
-          console[logKind](fromElm.data.message);
-        }
-        break;
-      }
-      case "attemptLogIn": {
-        const avatarUrl = await attemptLogIn(fromElm.data.username);
-        if (avatarUrl) {
-          app.ports.interopToElm.send({
-            tag: "authenticatedUser",
-            username: fromElm.data.username,
-            avatarUrl,
-          });
-        } else {
-          app.ports.interopToElm.send({
-            tag: "userNotFound",
-          });
-        }
-      }
-    }
+    flags: null,
   });
 });
 
