@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser
 import Flags
@@ -25,6 +25,7 @@ type Msg
     | OnInput String
     | OnUsernameInput String
     | LogIn
+    | AuthenticatedUser String
 
 
 type alias Model =
@@ -34,6 +35,15 @@ type alias Model =
     , user : Maybe User.User
     , subscriptionErrors : List String
     }
+
+
+port alert : String -> Cmd msg
+
+
+port logIn : () -> Cmd msg
+
+
+port onAuthenticated : (String -> msg) -> Sub msg
 
 
 init : Decode.Value -> ( Model, Cmd Msg )
@@ -53,8 +63,7 @@ update msg model =
     case msg of
         LogMessage kind ->
             ( model
-            , Cmd.none
-              -- TODO send fromElm port
+            , alert model.input
             )
 
         OnInput newText ->
@@ -66,14 +75,24 @@ update msg model =
         LogIn ->
             ( model
             , -- TODO send fromElm port
-              Cmd.none
+              logIn ()
             )
+
+        AuthenticatedUser username ->
+            ( { model | user = Just { username = username, avatarUrl = unknownIcon } }
+            , Cmd.none
+            )
+
+
+unknownIcon : String
+unknownIcon =
+    "https://www.publicdomainpictures.net/pictures/40000/nahled/question-mark.jpg"
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     -- TODO handle toElm subscriptions
-    Sub.none
+    onAuthenticated AuthenticatedUser
 
 
 view : Model -> Html Msg
