@@ -74,8 +74,7 @@ update msg model =
 
         LogIn ->
             ( model
-            , -- TODO send fromElm port
-              logIn ()
+            , logIn ()
             )
 
         AuthenticatedUser username ->
@@ -91,7 +90,6 @@ unknownIcon =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    -- TODO handle toElm subscriptions
     onAuthenticated AuthenticatedUser
 
 
