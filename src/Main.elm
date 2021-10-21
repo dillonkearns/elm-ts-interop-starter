@@ -30,7 +30,7 @@ type Msg
 type alias Model =
     { input : String
     , usernameInput : String
-    , flags : Result String Flags.Flags
+    , flags : Result Decode.Error Flags.Flags
     , user : Maybe User.User
     , subscriptionErrors : List String
     }
@@ -40,7 +40,7 @@ init : Decode.Value -> ( Model, Cmd Msg )
 init flags =
     ( { input = ""
       , usernameInput = ""
-      , flags = Err "TODO - need to wire in Flags."
+      , flags = Decode.decodeValue Flags.decoder flags
       , user = Nothing
       , subscriptionErrors = []
       }
@@ -152,7 +152,7 @@ logInView model =
         ]
 
 
-flagsView : Result String Flags.Flags -> Html msg
+flagsView : Result Decode.Error Flags.Flags -> Html msg
 flagsView result =
     div []
         [ h1 [] [ text "Flags" ]
@@ -170,7 +170,7 @@ flagsView result =
                     [ Attr.style "border" "solid 8px tomato"
                     , Attr.style "padding" "30px"
                     ]
-                    [ text flagsError
+                    [ text <| Decode.errorToString flagsError
                     ]
         ]
 
