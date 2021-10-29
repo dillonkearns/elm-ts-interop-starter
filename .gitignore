@@ -3,3 +3,4 @@ node_modules/
 elm-stuff/
 gen/
 elm.js
+src/Main.elm.d.ts

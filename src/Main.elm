@@ -1,10 +1,12 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 import Browser
 import Flags
 import Html exposing (..)
 import Html.Attributes as Attr exposing (href, id, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit, preventDefaultOn)
+import InteropDefinitions
+import InteropPorts
 import Json.Decode as Decode
 import Log
 import User
@@ -25,7 +27,7 @@ type Msg
     | OnInput String
     | OnUsernameInput String
     | LogIn
-    | AuthenticatedUser Decode.Value
+    | AuthenticatedUser (Result Decode.Error InteropDefinitions.ToElm)
 
 
 type alias Model =
@@ -37,20 +39,11 @@ type alias Model =
     }
 
 
-port alert : String -> Cmd msg
-
-
-port logIn : () -> Cmd msg
-
-
-port onAuthenticated : (Decode.Value -> msg) -> Sub msg
-
-
 init : Decode.Value -> ( Model, Cmd Msg )
 init flags =
     ( { input = ""
       , usernameInput = ""
-      , flags = Decode.decodeValue Flags.decoder flags
+      , flags = InteropPorts.decodeFlags flags
       , user = Nothing
       , subscriptionErrors = []
       }
@@ -63,7 +56,11 @@ update msg model =
     case msg of
         LogMessage kind ->
             ( model
-            , alert model.input
+            , { message = model.input
+              , kind = kind
+              }
+                |> InteropDefinitions.Alert
+                |> InteropPorts.fromElm
             )
 
         OnInput newText ->
@@ -74,13 +71,17 @@ update msg model =
 
         LogIn ->
             ( model
-            , logIn ()
+            , { username = model.usernameInput }
+                |> InteropDefinitions.AttemptLogIn
+                |> InteropPorts.fromElm
             )
 
-        AuthenticatedUser json ->
-            case Decode.decodeValue Decode.string json of
-                Ok username ->
-                    ( { model | user = Just { username = username, avatarUrl = unknownIcon } }
+        AuthenticatedUser result ->
+            case result of
+                Ok (InteropDefinitions.AuthenticatedUser user) ->
+                    ( { model
+                        | user = Just user
+                      }
                     , Cmd.none
                     )
 
@@ -101,7 +102,7 @@ unknownIcon =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    onAuthenticated AuthenticatedUser
+    InteropPorts.toElm |> Sub.map AuthenticatedUser
 
 
 view : Model -> Html Msg
