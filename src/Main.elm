@@ -25,7 +25,7 @@ type Msg
     | OnInput String
     | OnUsernameInput String
     | LogIn
-    | AuthenticatedUser String
+    | AuthenticatedUser Decode.Value
 
 
 type alias Model =
@@ -43,7 +43,7 @@ port alert : String -> Cmd msg
 port logIn : () -> Cmd msg
 
 
-port onAuthenticated : (String -> msg) -> Sub msg
+port onAuthenticated : (Decode.Value -> msg) -> Sub msg
 
 
 init : Decode.Value -> ( Model, Cmd Msg )
@@ -77,10 +77,21 @@ update msg model =
             , logIn ()
             )
 
-        AuthenticatedUser username ->
-            ( { model | user = Just { username = username, avatarUrl = unknownIcon } }
-            , Cmd.none
-            )
+        AuthenticatedUser json ->
+            case Decode.decodeValue Decode.string json of
+                Ok username ->
+                    ( { model | user = Just { username = username, avatarUrl = unknownIcon } }
+                    , Cmd.none
+                    )
+
+                Err error ->
+                    ( { model
+                        | subscriptionErrors =
+                            Decode.errorToString error
+                                :: model.subscriptionErrors
+                      }
+                    , Cmd.none
+                    )
 
 
 unknownIcon : String
