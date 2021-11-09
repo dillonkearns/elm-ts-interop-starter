@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (user) {
           app.ports.interopToElm.send({
             tag: "authenticatedUser",
-            user: user,
+            data: { user: user },
           });
         }
       }

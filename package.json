@@ -6,13 +6,14 @@
   "scripts": {
     "start": "vite --port 1234",
     "build": "npm run generate && tsc --noEmit && npm run lint && vite build",
-    "generate": "elm-ts-interop --definition-module InteropDefinitions --output src/Main.elm.d.ts",
+    "generate": "elm-ts-interop-pro --output src/Main.elm.d.ts --gen-directory gen --definitions src/InteropDefinitions.elm",
     "lint": "eslint index.ts",
     "postinstall": "elm-tooling install"
   },
   "author": "Dillon Kearns",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@incrementalelm/elm-ts-interop-pro": "^0.0.22",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "elm-tooling": "^1.6.0",

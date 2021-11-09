@@ -27,7 +27,7 @@ type Msg
     | OnInput String
     | OnUsernameInput String
     | LogIn
-    | AuthenticatedUser (Result Decode.Error InteropDefinitions.ToElm)
+    | AuthenticatedUser (Result Decode.Error InteropPorts.ToElm)
 
 
 type alias Model =
@@ -59,8 +59,7 @@ update msg model =
             , { message = model.input
               , kind = kind
               }
-                |> InteropDefinitions.Alert
-                |> InteropPorts.fromElm
+                |> InteropPorts.alert
             )
 
         OnInput newText ->
@@ -72,13 +71,12 @@ update msg model =
         LogIn ->
             ( model
             , { username = model.usernameInput }
-                |> InteropDefinitions.AttemptLogIn
-                |> InteropPorts.fromElm
+                |> InteropPorts.attemptLogIn
             )
 
         AuthenticatedUser result ->
             case result of
-                Ok (InteropDefinitions.AuthenticatedUser user) ->
+                Ok (InteropPorts.AuthenticatedUser user) ->
                     ( { model
                         | user = Just user
                       }
